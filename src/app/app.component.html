@@ -1,8 +1,29 @@
-<h1>
-  {{title}} - {{1+2}}
-</h1>
+<div>
+  <md-toolbar color="primary">
+    <span>Language Game</span>
 
-<button md-raised-button>
-  Angular Material works!
-  <md-icon>done</md-icon>
-</button>
+    <button md-icon-button [mdMenuTriggerFor]="menu">
+      <md-icon>more_vert</md-icon>
+    </button>
+  </md-toolbar>
+
+  <md-menu x-position="before" #menu="mdMenu">
+    <button md-menu-item>About</button>
+  </md-menu>
+
+  <md-card class="no-pad">
+    <md-toolbar color="primary" class="toolbar-card">Tag Questions</md-toolbar>
+    <md-card-content>
+      <form novalidate>
+        You are intelligent,
+        <md-input-container>
+          <input mdInput name="response" placeholder="Tag response"
+                 [(ngModel)]="response" required/>
+          <md-error>Write tag response</md-error>
+        </md-input-container>
+        ?
+        <button md-raised-button color="accent">Submit</button>
+      </form>
+    </md-card-content>
+  </md-card>
+</div>

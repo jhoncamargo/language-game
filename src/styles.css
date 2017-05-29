@@ -1,3 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~https://fonts.googleapis.com/icon?family=Material+Icons';
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+md-card {
+  max-width: 50%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+md-card-content {
+  padding: 25px;
+}
+
+md-toolbar-row {
+  justify-content: space-between;
+}
+
+input {
+  text-align: center;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.no-pad {
+  padding: 0 !important;
+}
