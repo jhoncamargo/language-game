@@ -32,4 +32,4 @@ import {
   ],
   declarations: []
 })
-export class MyOwnCustomMaterialModule { }
+export class CustomMaterialModule { }

@@ -1,4 +1,4 @@
-import { MyOwnCustomMaterialModule } from './my-own-custom-material/my-own-custom-material.module';
+import { CustomMaterialModule } from './modules/custom-material/custom-material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -16,7 +16,7 @@ import 'hammerjs';
     BrowserModule,
     FormsModule,
     HttpModule,
-    MyOwnCustomMaterialModule,
+    CustomMaterialModule,
     BrowserAnimationsModule
   ],
   providers: [],

@@ -14,11 +14,11 @@
   <md-card class="no-pad">
     <md-toolbar color="primary" class="toolbar-card">Tag Questions</md-toolbar>
     <md-card-content>
-      <form novalidate>
-        You are intelligent,
+      <form novalidate *ngFor="let q of tagQuestions">
+        {{q.question}}
         <md-input-container>
           <input mdInput name="response" placeholder="Tag response"
-                 [(ngModel)]="response" required/>
+                 [(ngModel)]="q.userResponse" required/>
           <md-error>Write tag response</md-error>
         </md-input-container>
         ?
