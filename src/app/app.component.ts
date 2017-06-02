@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {QuestionsService} from "./services/questions.service";
-import {TagQuestion} from "./model/tag-question";
+import { QuestionsService } from './services/questions.service';
+import { TagQuestion } from './model/tag-question';
 
 @Component({
   selector: 'app-root',
@@ -9,15 +9,21 @@ import {TagQuestion} from "./model/tag-question";
   providers: [QuestionsService]
 })
 export class AppComponent implements OnInit {
-  tagQuestions: TagQuestion[];
+  questions: TagQuestion[];
+  hasError: Boolean;
 
   constructor(private questionsService: QuestionsService) { }
 
-  getTagQuestions(): void {
-    this.questionsService.getTagQuestions().then(qs => this.tagQuestions = qs);
-  }
-
   ngOnInit(): void {
     this.getTagQuestions();
+  }
+
+  getTagQuestions(): void {
+    this.questionsService.getTagQuestions().then(qs => this.questions = qs);
+  }
+
+  submit(q: TagQuestion): void {
+    console.log(q);
+    this.hasError = true;
   }
 }

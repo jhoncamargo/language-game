@@ -10,7 +10,7 @@ export class QuestionsService {
   getTagQuestions(): Promise<TagQuestion[]> {
     return new Promise(resolve => {
       // Simulate server latency with half second delay
-      setTimeout(() => resolve(TAG_QUESTIONS), 2000);
+      setTimeout(() => resolve(TAG_QUESTIONS), 500);
     });
   }
 }
