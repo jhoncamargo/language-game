@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
     // when submitted an equal validator is added to show the correct responses
     function equal(s: string) {
       return function equalValidator(control: FormControl): { [s: string]: boolean} {
-        if ( control.value !== s) {
+        if ( control.value.toLowerCase() !== s.toLowerCase() ) {
           return { 'answer': true };
         }
         return null;

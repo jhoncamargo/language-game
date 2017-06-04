@@ -25,13 +25,20 @@ input {
   text-align: center;
 }
 
-.done {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  color: white;
-}
-
 .no-pad {
   padding: 0 !important;
+}
+
+@media (max-width: 700px) {
+  md-card {
+    max-width: 95%;
+  }
+
+  md-card-content {
+    padding: 5px;
+  }
+
+  md-input-container {
+    width: 100px;
+  }
 }
