@@ -1,0 +1,15 @@
+<h2 md-dialog-title>Name of the player</h2>
+<form #nameForm="ngForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+  <md-dialog-content>
+    <md-input-container>
+      Please write your name
+      <input mdInput required [(ngModel)]="username" name="username"/>
+      <md-error>Write your name</md-error>
+    </md-input-container>
+  </md-dialog-content>
+
+  <md-dialog-actions>
+    <button md-raised-button color="primary" type="submit" [disabled]="!nameForm.form.valid">Join</button>
+    <button md-raised-button color="accent" md-dialog-close>Cancel</button>
+  </md-dialog-actions>
+</form>

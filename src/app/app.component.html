@@ -11,26 +11,5 @@
     <button md-menu-item>About</button>
   </md-menu>
 
-  <md-card class="no-pad">
-    <md-toolbar color="primary" class="toolbar-card">Tag Questions</md-toolbar>
-    <md-card-content>
-      <form [formGroup]="questionsForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
-        <div formArrayName="questions" >
-
-          <div *ngFor="let q of questions.controls; let i = index" [formGroupName]="i" >
-            {{q.get('question').value}}
-            <md-input-container>
-              <input mdInput formControlName="userResponse"/>
-              <md-error *ngIf="q.get('userResponse').errors && q.get('userResponse').errors['required']">Write response</md-error>
-              <md-error *ngIf="q.get('userResponse').errors && q.get('userResponse').errors['answer']">{{q.get('response').value}}</md-error>
-            </md-input-container>
-
-            ?
-          </div>
-
-          <button md-raised-button color="accent" [disabled]="questionsForm.invalid || submitted">Submit</button>
-        </div>
-      </form>
-    </md-card-content>
-  </md-card>
+  <router-outlet></router-outlet>
 </div>

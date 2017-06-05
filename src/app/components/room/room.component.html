@@ -1,0 +1,43 @@
+<md-card class="no-pad">
+  <md-toolbar color="primary" class="toolbar-card">Tag Questions</md-toolbar>
+  <md-card-content>
+    <form [formGroup]="questionsForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+      <div formArrayName="questions" >
+        <div *ngFor="let q of questions.controls; let i = index" [formGroupName]="i" >
+          {{q.get('question').value}}
+          <md-input-container>
+            <input mdInput formControlName="userResponse"/>
+            <md-error *ngIf="q.get('userResponse').errors && q.get('userResponse').errors['required']">Write response</md-error>
+            <md-error *ngIf="q.get('userResponse').errors && q.get('userResponse').errors['answer']">{{q.get('response').value}}</md-error>
+          </md-input-container>
+          ?
+        </div>
+        <button md-raised-button color="primary" [disabled]="questionsForm.invalid || submitted">Submit</button>
+      </div>
+    </form>
+  </md-card-content>
+</md-card>
+
+<md-card class="no-pad">
+  <md-toolbar color="primary" class="toolbar-card">Scoreboard</md-toolbar>
+  <md-card-content>
+    <table>
+      <tr>
+        <th>Player</th>
+        <th>Points</th>
+      </tr>
+      <tr *ngFor="let p of players">
+        <td>{{player}}</td>
+        <!--<td>{{p.name}}</td>-->
+        <td>{{p.score}}</td>
+      </tr>
+    </table>
+  </md-card-content>
+</md-card>
+
+<md-card class="no-pad">
+  <md-toolbar color="primary" class="toolbar-card">Chat</md-toolbar>
+  <md-card-content>
+    chat...
+  </md-card-content>
+</md-card>

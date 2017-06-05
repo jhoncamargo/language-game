@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TagQuestion } from "../model/tag-question";
-import { TAG_QUESTIONS } from "./mock-tag-questions";
+import { TagQuestion } from '../model/tag-question';
+import { TAG_QUESTIONS } from './questions-mocked';
 
 @Injectable()
 export class QuestionsService {
