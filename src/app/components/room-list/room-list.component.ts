@@ -40,17 +40,22 @@ export class RoomListComponent implements OnInit {
   }
 
   count(room: any) {
-    return Object.keys(room.players).length;
+    return room && room.players ? Object.keys(room.players).length : 0;
   }
 
-  openNameDialog(key: string) {
+  openNameDialog(room: string) {
     this.dialogRef = this.dialog.open(NameDialogComponent, this.config);
 
-    this.dialogRef.afterClosed().subscribe((result: string) => {
+    this.dialogRef.afterClosed().subscribe((nickName: string) => {
       this.dialogRef = null;
-      if (result) {
-        const url = '/room/' + key + '/player/' + result;
-        this.router.navigateByUrl(url);
+      if (nickName) {
+        this.db.list('/' + room + '/players').push({
+          name: nickName,
+          points: 0
+        }).then( r => {
+          const url = '/room/' + room + '/player/' + r.key;
+          this.router.navigateByUrl(url);
+        });
       }
     });
   }
@@ -60,9 +65,7 @@ export class RoomListComponent implements OnInit {
     const room = {
       [this.roomName]: {
         questionnaire: 'tag-questions',
-        players: {
-          [this.username]: 0
-        },
+        players: {},
         chat: {
           0: 'Beginning of the chat'
         }
@@ -71,8 +74,13 @@ export class RoomListComponent implements OnInit {
 
     this.db.object('/').update(room)
       .then(_ => {
-        const url = '/room/' + this.roomName + '/player/' + this.username;
-        this.router.navigateByUrl(url);
+        this.db.list('/' + this.roomName + '/players').push({
+          name: this.username,
+          points: 0
+        }).then(r => {
+          const url = '/room/' + this.roomName + '/player/' + r.key;
+          this.router.navigateByUrl(url);
+        });
       });
   }
 }

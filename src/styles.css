@@ -28,6 +28,23 @@ input {
   padding: 0 !important;
 }
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
 @media (max-width: 700px) {
   md-card-content {
     padding: 25px 0;

@@ -2,7 +2,6 @@
 <form #nameForm="ngForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
   <md-dialog-content>
     <md-input-container>
-      Please write your name
       <input mdInput required [(ngModel)]="username" name="username"/>
       <md-error>Write your name</md-error>
     </md-input-container>

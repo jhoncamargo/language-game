@@ -30,8 +30,8 @@
               <th>Points</th>
             </tr>
             <tr *ngFor="let p of players | async">
-              <td>{{p.$key}}</td>
-              <td>{{p.$value}}</td>
+              <td>{{p.name}}</td>
+              <td>{{p.points}}</td>
             </tr>
           </table>
         </md-card-content>
