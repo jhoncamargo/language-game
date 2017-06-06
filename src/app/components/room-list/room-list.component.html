@@ -1,19 +1,21 @@
-<md-card class="no-pad">
-  <md-toolbar color="primary" class="toolbar-card">Available rooms to play</md-toolbar>
-  <md-card-content>
-    <table>
-      <tr>
-        <th>Room name</th>
-        <th>Players</th>
-        <th>Actions</th>
-      </tr>
-      <tr *ngFor="let r of rooms | async">
-        <td>{{r.$key}}</td>
-        <td>--</td>
-        <td>
-          <button md-raised-button color="primary" (click)="openNameDialog(r.$key)">Join</button>
-        </td>
-      </tr>
-    </table>
-  </md-card-content>
-</md-card>
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex fxLayoutAlign="center">
+  <md-card class="no-pad" fxFlex.gt-sm="60%">
+    <md-toolbar color="primary" class="toolbar-card">Available rooms to play</md-toolbar>
+    <md-card-content>
+      <table>
+        <tr>
+          <th>Room name</th>
+          <th>Players</th>
+          <th>Actions</th>
+        </tr>
+        <tr *ngFor="let r of rooms | async">
+          <td>{{r.$key}}</td>
+          <td>--</td>
+          <td>
+            <button md-raised-button color="primary" (click)="openNameDialog(r.$key)">Join</button>
+          </td>
+        </tr>
+      </table>
+    </md-card-content>
+  </md-card>
+</div>
