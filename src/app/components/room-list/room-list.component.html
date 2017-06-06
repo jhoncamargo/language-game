@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex fxLayoutAlign="center">
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex>
   <md-card class="no-pad" fxFlex.gt-sm="60%">
     <md-toolbar color="primary" class="toolbar-card">Available rooms to play</md-toolbar>
     <md-card-content>
@@ -10,7 +10,7 @@
         </tr>
         <tr *ngFor="let r of rooms | async">
           <td>{{r.$key}}</td>
-          <td>--</td>
+          <td>{{count(r)}}</td>
           <td>
             <button md-raised-button color="primary" (click)="openNameDialog(r.$key)">Join</button>
           </td>
@@ -18,4 +18,31 @@
       </table>
     </md-card-content>
   </md-card>
+
+  <div fxFlex="35%">
+    <div fxLayout="column" fxFlex>
+      <md-card class="no-pad" fxFlex>
+        <md-toolbar color="primary" class="toolbar-card">Create new room</md-toolbar>
+        <md-card-content>
+          <form #newRoomForm="ngForm" (ngSubmit)="onSubmit()" novalidate autocomplete="off">
+            <div>
+              Please write the room's name:
+              <md-input-container>
+                <input mdInput required [(ngModel)]="roomName" name="roomName"/>
+                <md-error>Write the room's name</md-error>
+              </md-input-container>
+            </div>
+            <div>
+              Please write your nickname:
+              <md-input-container>
+                <input mdInput required [(ngModel)]="username" name="username"/>
+                <md-error>Write your nickname</md-error>
+              </md-input-container>
+            </div>
+            <button md-raised-button color="primary" type="submit" [disabled]="!newRoomForm.form.valid || submitted">Create</button>
+          </form>
+        </md-card-content>
+      </md-card>
+    </div>
+  </div>
 </div>

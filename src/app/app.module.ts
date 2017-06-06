@@ -18,7 +18,7 @@ import { NameDialogComponent } from './components/name-dialog/name-dialog.compon
 import { MdDialogModule} from '@angular/material';
 
 const appRoutes: Routes = [
-  { path: 'room/:id/player/:playerName', component: RoomComponent },
+  { path: 'room/:roomId/player/:playerName', component: RoomComponent },
   { path: '**', component: RoomListComponent }
 ];
 

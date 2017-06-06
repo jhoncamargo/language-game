@@ -28,15 +28,19 @@ export class RoomListComponent implements OnInit {
       message: 'Please write your name'
     }
   };
+  username: string;
+  roomName: string;
+  submitted = false;
 
   constructor(private db: AngularFireDatabase, public dialog: MdDialog, private router: Router) {
   }
 
   ngOnInit(): void {
     this.rooms = this.db.list('/');
-    this.rooms.subscribe(snapshot => {
-      console.log(snapshot);
-    });
+  }
+
+  count(room: any) {
+    return Object.keys(room.players).length;
   }
 
   openNameDialog(key: string) {
@@ -47,8 +51,28 @@ export class RoomListComponent implements OnInit {
       if (result) {
         const url = '/room/' + key + '/player/' + result;
         this.router.navigateByUrl(url);
-        console.log('Redirecting to ' + url);
       }
     });
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+    const room = {
+      [this.roomName]: {
+        questionnaire: 'tag-questions',
+        players: {
+          [this.username]: 0
+        },
+        chat: {
+          0: 'Beginning of the chat'
+        }
+      }
+    };
+
+    this.db.object('/').update(room)
+      .then(_ => {
+        const url = '/room/' + this.roomName + '/player/' + this.username;
+        this.router.navigateByUrl(url);
+      });
   }
 }

@@ -4,6 +4,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { TagQuestion } from '../../model/tag-question';
 import {MdDialog} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
+import {FirebaseListObservable} from "angularfire2/database/firebase_list_observable";
+import {AngularFireDatabase} from "angularfire2/database/database";
 
 @Component({
   selector: 'app-room',
@@ -15,14 +17,11 @@ export class RoomComponent implements OnInit {
   questionsForm: FormGroup;
   submitted: Boolean = false;
   player = '';
-  players = [
-    {
-      name: this.player,
-      score: 10
-    }
-  ];
+  room = '';
+  players: FirebaseListObservable<any[]>;
 
-  constructor(private questionsService: QuestionsService, private fb: FormBuilder, private route: ActivatedRoute) {
+  constructor(private db: AngularFireDatabase, private questionsService: QuestionsService, private fb: FormBuilder,
+              private route: ActivatedRoute) {
     this.createForm();
   }
 
@@ -36,7 +35,9 @@ export class RoomComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.forEach((params) => {
       this.player = params['playerName'];
+      this.room = params['roomId'];
     });
+    this.players = this.db.list('/' + this.room + '/players');
     this.getTagQuestions();
   }
 
