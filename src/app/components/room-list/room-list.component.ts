@@ -3,6 +3,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import {MdDialog, MdDialogConfig, MdDialogRef} from '@angular/material';
 import {NameDialogComponent} from '../name-dialog/name-dialog.component';
 import {Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-room-list',
@@ -32,7 +33,7 @@ export class RoomListComponent implements OnInit {
   roomName: string;
   submitted = false;
 
-  constructor(private db: AngularFireDatabase, public dialog: MdDialog, private router: Router) {
+  constructor(private db: AngularFireDatabase, public dialog: MdDialog, private router: Router, private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -46,15 +47,15 @@ export class RoomListComponent implements OnInit {
   openNameDialog(room: string) {
     this.dialogRef = this.dialog.open(NameDialogComponent, this.config);
 
-    this.dialogRef.afterClosed().subscribe((nickName: string) => {
+    this.dialogRef.afterClosed().subscribe((username: string) => {
       this.dialogRef = null;
-      if (nickName) {
+      if (username) {
         this.db.list('/' + room + '/players').push({
-          name: nickName,
+          name: username,
           points: 0
-        }).then( r => {
-          const url = '/room/' + room + '/player/' + r.key;
-          this.router.navigateByUrl(url);
+        }).then( player => {
+          this.userService.setUserInfo(player.key, username, room, 0);
+          this.router.navigateByUrl('/game');
         });
       }
     });
@@ -77,9 +78,9 @@ export class RoomListComponent implements OnInit {
         this.db.list('/' + this.roomName + '/players').push({
           name: this.username,
           points: 0
-        }).then(r => {
-          const url = '/room/' + this.roomName + '/player/' + r.key;
-          this.router.navigateByUrl(url);
+        }).then(player => {
+          this.userService.setUserInfo(player.key, this.username, this.roomName, 0);
+          this.router.navigateByUrl('/game');
         });
       });
   }

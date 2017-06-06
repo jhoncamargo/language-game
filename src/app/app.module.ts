@@ -15,10 +15,12 @@ import { RoomComponent } from './components/room/room.component';
 import {RouterModule, Routes} from '@angular/router';
 import { RoomListComponent } from './components/room-list/room-list.component';
 import { NameDialogComponent } from './components/name-dialog/name-dialog.component';
-import { MdDialogModule} from '@angular/material';
+import {MdDialog, MdDialogModule} from '@angular/material';
+import {UserService} from './services/user.service';
+import {QuestionsService} from './services/questions.service';
 
 const appRoutes: Routes = [
-  { path: 'room/:roomId/player/:playerName', component: RoomComponent },
+  { path: 'game', component: RoomComponent },
   { path: '**', component: RoomListComponent }
 ];
 
@@ -45,7 +47,7 @@ const appRoutes: Routes = [
     MdDialogModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [UserService, QuestionsService, MdDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

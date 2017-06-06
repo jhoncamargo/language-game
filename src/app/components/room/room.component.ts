@@ -2,26 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from '../../services/questions.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TagQuestion } from '../../model/tag-question';
-import {MdDialog} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
-import {FirebaseListObservable} from "angularfire2/database/firebase_list_observable";
-import {AngularFireDatabase} from "angularfire2/database/database";
+import { ActivatedRoute } from '@angular/router';
+import { FirebaseListObservable } from 'angularfire2/database/firebase_list_observable';
+import { AngularFireDatabase } from 'angularfire2/database/database';
+import {UserService} from '../../services/user.service';
+import {UserInfo} from '../../model/user-info';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
-  styleUrls: ['./room.component.css'],
-  providers: [QuestionsService, MdDialog]
+  styleUrls: ['./room.component.css']
 })
 export class RoomComponent implements OnInit {
   questionsForm: FormGroup;
   submitted: Boolean = false;
-  player = '';
-  room = '';
+  userInfo: UserInfo;
   players: FirebaseListObservable<any[]>;
 
   constructor(private db: AngularFireDatabase, private questionsService: QuestionsService, private fb: FormBuilder,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private userService: UserService) {
     this.createForm();
   }
 
@@ -33,11 +32,12 @@ export class RoomComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.params.forEach((params) => {
-      this.player = params['playerName'];
-      this.room = params['roomId'];
+    this.userInfo = this.userService.getUserInfo();
+    this.players = this.db.list('/' + this.userInfo.room + '/players', {
+      query: {
+        orderByChild: 'points',
+      }
     });
-    this.players = this.db.list('/' + this.room + '/players');
     this.getTagQuestions();
   }
 
@@ -66,16 +66,29 @@ export class RoomComponent implements OnInit {
     // when submitted an equal validator is added to show the correct responses
     function equal(s: string) {
       return function equalValidator(control: FormControl): { [s: string]: boolean} {
-        if ( control.value.toLowerCase() !== s.toLowerCase() ) {
+        if ( control.value.toLowerCase().trim() !== s.toLowerCase().trim() ) {
           return { 'answer': true };
         }
         return null;
       };
     }
     this.submitted = true;
+
     this.questions.controls.forEach(c => {
       c.get('userResponse').setValidators(Validators.compose([Validators.required, equal(c.get('response').value)]));
       c.get('userResponse').updateValueAndValidity();
+    });
+
+    const subTotals = this.questions.controls.map(((x) => {
+      return x.get('userResponse').value.toLowerCase().trim() === x.get('response').value.toLowerCase().trim() ? +1 : +0;
+    }));
+    const total = subTotals.reduce((x, y) => x + y);
+    this.userService.addPoints(total);
+
+    const url = '/' + this.userInfo.room + '/players';
+    this.db.list(url).update(this.userInfo.userId, {
+      name: this.userInfo.username,
+      points: this.userService.getPoints()
     });
   }
 }
