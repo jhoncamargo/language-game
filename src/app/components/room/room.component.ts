@@ -18,6 +18,8 @@ export class RoomComponent implements OnInit {
   submitted: Boolean = false;
   userInfo: UserInfo;
   players: FirebaseListObservable<any[]>;
+  chatMessages: FirebaseListObservable<any[]>;
+  chatEntry: string;
 
   constructor(private db: AngularFireDatabase, private questionsService: QuestionsService, private fb: FormBuilder,
               private route: ActivatedRoute, private userService: UserService) {
@@ -38,6 +40,7 @@ export class RoomComponent implements OnInit {
         orderByChild: 'points',
       }
     });
+    this.chatMessages = this.db.list('/' + this.userInfo.room + '/chat');
     this.getTagQuestions();
   }
 
@@ -90,5 +93,14 @@ export class RoomComponent implements OnInit {
       name: this.userInfo.username,
       points: this.userService.getPoints()
     });
+  }
+
+  onSubmitChat(): void {
+    if (this.chatEntry) {
+      this.db.list('/' + this.userInfo.room + '/chat').push(this.userInfo.username + ': ' + this.chatEntry)
+        .then(_ => {
+          this.chatEntry = '';
+      });
+    }
   }
 }

@@ -18,6 +18,7 @@ import { MdDialog, MdDialogModule } from '@angular/material';
 import { UserService } from './services/user.service';
 import { QuestionsService } from './services/questions.service';
 import { LoginGuard } from './guards/login.guard';
+import { NguiScrollableModule } from '@ngui/scrollable';
 import 'hammerjs';
 
 const appRoutes: Routes = [
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     MdDialogModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NguiScrollableModule
   ],
   providers: [UserService, QuestionsService, MdDialog, LoginGuard],
   bootstrap: [AppComponent]

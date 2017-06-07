@@ -39,7 +39,16 @@
       <md-card class="no-pad" fxFlex>
         <md-toolbar color="primary" class="toolbar-card">Chat</md-toolbar>
         <md-card-content>
-          chat...
+          <form #chatForm="ngForm" (ngSubmit)="onSubmitChat()" novalidate autocomplete="off">
+            <md-input-container id="chat-entry">
+              <input mdInput [(ngModel)]="chatEntry" name="chatEntry" placeholder="Type here and press enter"/>
+            </md-input-container>
+          </form>
+          <div class="scrollable section" ngui-scrollable>
+            <div *ngFor="let m of chatMessages | async">
+              {{m.$value}}
+            </div>
+          </div>
         </md-card-content>
       </md-card>
     </div>

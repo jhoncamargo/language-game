@@ -1,0 +1,21 @@
+.scrollable {
+  height: 200px;
+  text-align: justify;
+}
+
+.scrollable > div:nth-child(odd) {
+  background-color: #ececec;
+  padding: 5px;
+}
+
+.scrollable > div:nth-child(even) {
+  padding: 5px;
+}
+
+.scrollable.section {
+  overflow:auto;
+}
+
+#chat-entry {
+  width: 100%;
+}
