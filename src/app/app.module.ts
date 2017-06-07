@@ -10,17 +10,18 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppComponent } from './app.component';
-import 'hammerjs';
 import { RoomComponent } from './components/room/room.component';
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes} from '@angular/router';
 import { RoomListComponent } from './components/room-list/room-list.component';
 import { NameDialogComponent } from './components/name-dialog/name-dialog.component';
-import {MdDialog, MdDialogModule} from '@angular/material';
-import {UserService} from './services/user.service';
-import {QuestionsService} from './services/questions.service';
+import { MdDialog, MdDialogModule } from '@angular/material';
+import { UserService } from './services/user.service';
+import { QuestionsService } from './services/questions.service';
+import { LoginGuard } from './guards/login.guard';
+import 'hammerjs';
 
 const appRoutes: Routes = [
-  { path: 'game', component: RoomComponent },
+  { path: 'game', component: RoomComponent, canActivate: [LoginGuard] },
   { path: '**', component: RoomListComponent }
 ];
 
@@ -47,7 +48,7 @@ const appRoutes: Routes = [
     MdDialogModule,
     FlexLayoutModule
   ],
-  providers: [UserService, QuestionsService, MdDialog],
+  providers: [UserService, QuestionsService, MdDialog, LoginGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

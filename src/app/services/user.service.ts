@@ -3,10 +3,10 @@ import {UserInfo} from '../model/user-info';
 
 @Injectable()
 export class UserService {
-  userId: string;
-  username: string;
-  room: string;
-  points: number;
+  private userId: string;
+  private username: string;
+  private room: string;
+  private points: number;
 
   constructor() {}
 
@@ -27,6 +27,10 @@ export class UserService {
 
   getPoints(): number {
     return this.points;
+  }
+
+  isLogged(): boolean {
+    return this.userId !== undefined && this.username !== undefined && this.room !== undefined && this.points !== undefined;
   }
 
   invalidate(): void {
