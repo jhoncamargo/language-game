@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {UserInfo} from '../model/user-info';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 @Injectable()
 export class UserService {
@@ -8,7 +9,7 @@ export class UserService {
   private room: string;
   private points: number;
 
-  constructor() {}
+  constructor(private db: AngularFireDatabase) {}
 
   setUserInfo(userId: string, username: string, room: string, points: number): void {
     this.userId = userId;
@@ -29,14 +30,17 @@ export class UserService {
     return this.points;
   }
 
-  isLogged(): boolean {
+  isLoggedIn(): boolean {
     return this.userId !== undefined && this.username !== undefined && this.room !== undefined && this.points !== undefined;
   }
 
-  invalidate(): void {
-    this.userId = undefined;
-    this.username = undefined;
-    this.room = undefined;
-    this.points = undefined;
+  invalidateUser(): void {
+    if (this.isLoggedIn()) {
+      this.db.object('/' + this.room + '/players/' + this.userId).remove();
+      this.userId = undefined;
+      this.username = undefined;
+      this.room = undefined;
+      this.points = undefined;
+    }
   }
 }

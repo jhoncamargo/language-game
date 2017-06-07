@@ -38,6 +38,7 @@ export class RoomListComponent implements OnInit {
 
   ngOnInit(): void {
     this.rooms = this.db.list('/');
+    this.userService.invalidateUser();
   }
 
   count(room: any) {
