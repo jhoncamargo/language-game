@@ -8,18 +8,26 @@ export class UserService {
   private username: string;
   private room: string;
   private points: number;
+  private isAdmin: boolean;
 
   constructor(private db: AngularFireDatabase) {}
 
-  setUserInfo(userId: string, username: string, room: string, points: number): void {
+  setUserInfo(userId: string, username: string, room: string, points: number, isAdmin: boolean): void {
     this.userId = userId;
     this.username = username;
     this.room = room;
     this.points = points;
+    this.isAdmin = isAdmin;
   }
 
   getUserInfo(): UserInfo {
-    return { userId: this.userId, username: this.username, room: this.room, points: this.points };
+    return {
+      userId: this.userId,
+      username: this.username,
+      room: this.room,
+      points: this.points,
+      isAdmin: this.isAdmin
+    };
   }
 
   addPoints(points: number): void {

@@ -3,4 +3,5 @@ export class UserInfo {
   username: string;
   room: string;
   points: number;
+  isAdmin: boolean;
 }

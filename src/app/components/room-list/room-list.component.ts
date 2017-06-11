@@ -45,7 +45,9 @@ export class RoomListComponent implements OnInit {
     return room && room.players ? Object.keys(room.players).length : 0;
   }
 
-  openNameDialog(room: string) {
+  openNameDialog(roomObj: any) {
+    const room = roomObj.$key;
+    const isAdmin = !(!!roomObj.players);
     this.dialogRef = this.dialog.open(NameDialogComponent, this.config);
 
     this.dialogRef.afterClosed().subscribe((username: string) => {
@@ -53,9 +55,10 @@ export class RoomListComponent implements OnInit {
       if (username) {
         this.db.list('/' + room + '/players').push({
           name: username,
-          points: 0
+          points: 0,
+          isAdmin: isAdmin
         }).then( player => {
-          this.userService.setUserInfo(player.key, username, room, 0);
+          this.userService.setUserInfo(player.key, username, room, 0, isAdmin);
           this.router.navigateByUrl('/game');
         });
       }
@@ -66,7 +69,7 @@ export class RoomListComponent implements OnInit {
     this.submitted = true;
     const room = {
       [this.roomName]: {
-        questionnaire: 'tag-questions',
+        questionnaire: 'Tag Questions',
         players: {},
         chat: {
           0: 'Beginning of the chat'
@@ -78,9 +81,10 @@ export class RoomListComponent implements OnInit {
       .then(_ => {
         this.db.list('/' + this.roomName + '/players').push({
           name: this.username,
-          points: 0
+          points: 0,
+          isAdmin: true
         }).then(player => {
-          this.userService.setUserInfo(player.key, this.username, this.roomName, 0);
+          this.userService.setUserInfo(player.key, this.username, this.roomName, 0, true);
           this.router.navigateByUrl('/game');
         });
       });

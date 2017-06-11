@@ -1,4 +1,4 @@
-export class TagQuestion {
+export class Question {
     question: string;
     response: string;
 }
